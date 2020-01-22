@@ -19,13 +19,24 @@
         force_basic_auth: yes
         body_format: json
 
+- name: Fetch package dependencies depending on the distribution
+  hosts: platforms
+  tasks:
+    - debug:
+        var: ansible_distribution
+    - debug:
+        var: ansible_distribution_major_version
+    - include_vars: "{{ item }}"
+      with_first_found:
+        - "prepare-packages-{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version}}.yml"
+        - "prepare-packages-{{ ansible_distribution | lower }}.yml"
+        - "prepare-packages.yml"
+      tags: vars
+
 - name: Install package dependencies on platforms hosts
   hosts: platforms
   tasks:
     - name: Install required packages
       package:
-        name: "{{ item }}"
+        name: "{{ packages }}"
         state: present
-      with_items:
-        - iproute
-        - netscript
