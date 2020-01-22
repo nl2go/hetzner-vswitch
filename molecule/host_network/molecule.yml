@@ -4,8 +4,23 @@ driver:
 lint:
   name: yamllint
 platforms:
+  - name: debian9
+    image: debian:9
+    dockerfile: ../resources/playbooks/Dockerfile.j2
+    groups:
+      - platforms
+  - name: debian10
+    image: debian:10.2
+    dockerfile: ../resources/playbooks/Dockerfile.j2
+    groups:
+      - platforms
   - name: ubuntu-16
     image: ubuntu:16.04
+    dockerfile: ../resources/playbooks/Dockerfile.j2
+    groups:
+      - platforms
+  - name: ubuntu-18
+    image: ubuntu:18.04
     dockerfile: ../resources/playbooks/Dockerfile.j2
     groups:
       - platforms
