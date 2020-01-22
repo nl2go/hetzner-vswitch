@@ -7,6 +7,11 @@
   set_fact:
     interface_name: "{{ default_ipv4_interface }}.{{ vswitch_config.vlan }}"
 
+- name: Install ifupdown
+  apt:
+    name: ifupdown
+    state: present
+
 - name: "Configure virtual interface {{ interface_name }}"
   template:
     src: templates/network/interface.j2
